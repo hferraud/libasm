@@ -14,7 +14,7 @@ ft_strdup:
 	inc rax					; len += 1 for '\0'
 	mov rdi, rax			; malloc() size param
 	call malloc wrt ..plt	; return value stored in rax
-	cmp rax, 0				; cmp return value to NULL
+	cmp rax, 0				; cmp rax to NULL
 	je _malloc_error		; jmp if equal
 	pop rsi					; ft_strcpy() src param
 	mov rdi, rax			; ft_strcpy() dst param

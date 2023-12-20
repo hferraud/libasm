@@ -2,6 +2,8 @@ NAME		=		libasm.a
 
 TEST		=		test
 
+TEST_BONUS	=		test_bonus
+
 LIB_NAME	=		asm
 
 #######################
@@ -27,11 +29,17 @@ ASM_SRC			=		ft_strlen.asm	\
 						ft_read.asm		\
 						ft_strdup.asm	\
 
-C_SRC			=		main.c
+ASM_BONUS_SRC	=		t_list.asm						\
+						ft_list_push_front_bonus.asm	\
+
+TEST_SRC		=		test.c
+
+TEST_BONUS_SRC	=		test_bonus.c
 
 ASM_OBJ			=		$(addprefix $(BUILD_DIR), $(ASM_SRC:.asm=.o))
-
-C_OBJ			=		$(addprefix $(BUILD_DIR), $(C_SRC:.c=.o))
+ASM_BONUS_OBJ	=		$(addprefix $(BUILD_DIR), $(ASM_BONUS_SRC:.asm=.o))
+TEST_OBJ		=		$(addprefix $(BUILD_DIR), $(TEST_SRC:.c=.o))
+TEST_BONUS_OBJ	=		$(addprefix $(BUILD_DIR), $(TEST_BONUS_SRC:.c=.o))
 
 #######################
 #	FLAGS
@@ -41,11 +49,15 @@ ASM			=		nasm
 
 ASM_FLAGS	=		-f elf64
 
-C_FLAGS		=		-Wall -Werror -Wextra
+C_FLAGS		=		-Wall -Werror -Wextra -fsanitize=address
 
 I_FLAGS		=		-I$(INC_DIR)
 
+ASM_I_FLAGS	=		-i$(SRC_DIR)
+
 L_FLAGS		=		-L$(LIB_DIR) -l$(LIB_NAME) -lc
+
+DEF_FLAGS	=		-DSYS_READ=0x00 -DSYS_WRITE=0x01 -DERRNO=__errno_location -DMALLOC=malloc -DFREE=free
 
 LINK		=		ld
 
@@ -62,13 +74,18 @@ AR			=		ar rcs
 .PHONY:				all
 all:				$(NAME)
 
+.PHONY:				bonus
+bonus:				$(NAME) $(ASM_BONUS_OBJ)
+					mkdir -p $(LIB_DIR)
+					$(AR) $(LIB_DIR)$(NAME) $(ASM_BONUS_OBJ)
+
 .PHONY:				clean
 clean:
-					$(RM) $(C_OBJ) $(ASM_OBJ)
+					$(RM) $(ASM_OBJ) $(TEST_OBJ) $(ASM_BONUS_OBJ) $(TEST_BONUS_OBJ)
 
 .PHONY:				fclean
 fclean:				clean
-					$(RM) $(LIB_DIR)$(NAME) $(TEST)
+					$(RM) $(LIB_DIR)$(NAME) $(TEST) $(TEST_BONUS)
 
 .PHONY:				re
 re:					fclean
@@ -78,6 +95,10 @@ re:					fclean
 run:				$(TEST)
 					./$(TEST)
 
+.PHONY:				run_bonus
+run_bonus:			$(TEST_BONUS)
+					./$(TEST_BONUS)
+
 ################
 #	EXECUTABLES
 ################
@@ -86,8 +107,11 @@ $(NAME):			$(ASM_OBJ)
 					mkdir -p $(LIB_DIR)
 					$(AR) $(LIB_DIR)$@ $^
 
-$(TEST):			$(NAME) $(C_OBJ)
-					$(CC) $(C_FLAGS) $(I_FLAGS) $(C_OBJ) $(L_FLAGS) -o $@
+$(TEST):			$(NAME) $(TEST_OBJ)
+					$(CC) $(C_FLAGS) $(I_FLAGS) $(TEST_OBJ) $(L_FLAGS) -o $@
+
+$(TEST_BONUS):		bonus $(TEST_BONUS_OBJ)
+					$(CC) $(C_FLAGS) $(I_FLAGS) $(TEST_BONUS_OBJ) $(L_FLAGS) -o $@
 
 ##################
 #	OBJECTS FILES
@@ -95,7 +119,7 @@ $(TEST):			$(NAME) $(C_OBJ)
 
 $(BUILD_DIR)%.o:	$(SRC_DIR)%.asm
 					mkdir -p $(shell dirname $@)
-					$(ASM) $(ASM_FLAGS) $< -o $@
+					$(ASM) $(ASM_FLAGS) $(ASM_I_FLAGS) $(DEF_FLAGS)  $< -o $@
 
 
 $(BUILD_DIR)%.o:	$(SRC_DIR)%.c

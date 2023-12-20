@@ -7,10 +7,9 @@
 
 #define CLEAR "\e[1;1H\e[2J"
 
-extern size_t	ft_strlen(char *str);
-
 int main(void) {
 	printf(CLEAR);
+
 	/**
 	 * FT_STRLEN
 	 */
@@ -18,6 +17,7 @@ int main(void) {
 	{
 		printf("len: %zu\n", ft_strlen("salut les potes"));
 	}
+
 	/**
 	 * FT_STRCPY
 	 */
@@ -40,6 +40,7 @@ int main(void) {
 		free(dst);
 		free(src);
 	}
+
 	/**
 	 * FT_STRCMP
 	 */
@@ -74,6 +75,7 @@ int main(void) {
 		free(s3);
 		free(s4);
 	}
+
 	/**
 	 * FT_WRITE
 	 */
@@ -104,6 +106,7 @@ int main(void) {
 		errno = 0;
 		free(str);
 	}
+
 	/**
 	 * FT_WRITE
 	 */
@@ -140,6 +143,7 @@ int main(void) {
 
 		free(str);
 	}
+
 	/**
 	 * FT_READ
 	 */
@@ -200,6 +204,10 @@ int main(void) {
 		close(fd1);
 		close(fd2);
 	}
+
+	/**
+	 * FT_READ
+	 */
 	printf("\nTESTING FT_STRDUP:\n\n");
 	{
 		char	*s1;
