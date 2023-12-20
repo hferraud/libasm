@@ -3,19 +3,21 @@ bits 64
 section .text
 	global ft_strcmp
 
+; int ft_strcmp(char *s1, char *s2);
+
 ft_strcmp:
-	xor rax, rax
-	xor rbx, rbx
+	xor rax, rax	; set rax to 0
+	xor rbx, rbx	; set rbx to 0
 loop:
-	mov al, [rdi]
-	mov bl, [rsi]
-	cmp al, 0
-	je end_loop
-	cmp al, bl
-	jne end_loop
-	inc rdi
-	inc rsi
+	mov al, [rdi]	; mov *s1 to lower 8-bit rax
+	mov bl, [rsi]	; mov *s2 to lower 8-bit rbx
+	cmp al, 0		; cmp *s1 to '\0'
+	je end_loop		; jmp if equal
+	cmp al, bl		; cmp *s1 to *s2
+	jne end_loop	; jmp if not equal
+	inc rdi			; s1++
+	inc rsi			; s2++
 	jmp loop
 end_loop:
-	sub rax, rbx
+	sub rax, rbx	; sub *s2 to *s1
 	ret
