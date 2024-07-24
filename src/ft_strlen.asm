@@ -1,7 +1,7 @@
 bits 64
+global ft_strlen
 
 section .text
-	global ft_strlen
 
 ; size_t ft_strlen(char *str);
 

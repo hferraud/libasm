@@ -9,6 +9,7 @@ section .text
 	global ft_list_size
 
 ft_list_size:
+	push rbx				; save rbx
 	xor rax, rax			; set rax to 0
 loop:
 	cmp rdi, 0				; cmp head to NULL
@@ -18,4 +19,5 @@ loop:
 	inc rax					; count++
 	jmp loop
 exit:
+	pop rbx					; restore rbx
 	ret

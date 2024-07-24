@@ -1,7 +1,7 @@
 bits 64
+global ft_strcmp
 
 section .text
-	global ft_strcmp
 
 ; int ft_strcmp(char *s1, char *s2);
 

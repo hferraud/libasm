@@ -1,7 +1,7 @@
 bits 64
+global ft_strcpy
 
 section .text
-	global ft_strcpy
 
 ; char *ft_strcpy(char *dst, char *src);
 

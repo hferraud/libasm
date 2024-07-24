@@ -49,7 +49,7 @@ ASM			=		nasm
 
 ASM_FLAGS	=		-f elf64
 
-C_FLAGS		=		-Wall -Werror -Wextra -fsanitize=address
+C_FLAGS		=		-Wall -Werror -Wextra -fsanitize=address -g3
 
 I_FLAGS		=		-I$(INC_DIR)
 

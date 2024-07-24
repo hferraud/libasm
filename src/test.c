@@ -108,43 +108,6 @@ int main(void) {
 	}
 
 	/**
-	 * FT_WRITE
-	 */
-	printf("\nTESTING FT_WRITE:\n\n");
-	{
-		char*	str;
-		int		ret;
-
-		str = strdup("This is a test\n");
-
-		printf("SUCCESS:\n\n");
-
-		printf("STD FUNCTION:\n");
-		ret = write(STDIN_FILENO, str, ft_strlen(str));
-		printf("Return: %d\nErrno: %d\n", ret, errno);
-		errno = 0;
-
-		printf("FT FUNCTION:\n");
-		ret = ft_write(STDIN_FILENO, str, ft_strlen(str));
-		printf("Return: %d\nErrno: %d\n", ret, errno);
-		errno = 0;
-
-		printf("\nERROR:\n\n");
-
-		printf("STD FUNCTION:\n");
-		ret = write(-1, str, ft_strlen(str));
-		printf("Return: %d\nErrno: %d\n", ret, errno);
-		errno = 0;
-
-		printf("FT FUNCTION:\n");
-		ret = ft_write(-1, str, ft_strlen(str));
-		printf("Return: %d\nErrno: %d\n", ret, errno);
-		errno = 0;
-
-		free(str);
-	}
-
-	/**
 	 * FT_READ
 	 */
 	printf("\nTESTING FT_READ:\n\n");
@@ -206,7 +169,7 @@ int main(void) {
 	}
 
 	/**
-	 * FT_READ
+	 * FT_STRDUP
 	 */
 	printf("\nTESTING FT_STRDUP:\n\n");
 	{
