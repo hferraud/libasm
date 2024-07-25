@@ -4,7 +4,7 @@ global ft_list_size
 extern t_list
 extern MALLOC
 
-; ssize_t ft_list_size(t_list *head);
+; size_t ft_list_size(t_list *head);
 
 section .text
 

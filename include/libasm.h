@@ -19,4 +19,4 @@ typedef struct s_list {
 }t_list;
 
 extern void		ft_list_push_front(t_list **head, void *data);
-extern ssize_t	ft_list_size(t_list *head);
+extern size_t	ft_list_size(t_list *head);

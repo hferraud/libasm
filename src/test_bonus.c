@@ -39,7 +39,8 @@ int main(void) {
 		ft_list_push_front(&head, &data1);
 		ft_list_push_front(&head, &data2);
 		ft_list_push_front(&head, &data3);
-		printf("Size: %zd\n", ft_list_size(head));
+		printf("Size: %zu\n", ft_list_size(head));
+		printf("Size: %zu\n", ft_list_size(NULL));
 		while (head) {
 			tmp = head->next;
 			free(head);
