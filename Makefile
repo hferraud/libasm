@@ -1,26 +1,13 @@
+#******************** VARIABLES ********************#
+
+#---------- NAMES ----------#
+
 NAME		=		libasm.a
-
 TEST		=		test
-
 TEST_BONUS	=		test_bonus
-
 LIB_NAME	=		asm
 
-#######################
-#	DIR
-#######################
-
-SRC_DIR		=		src/
-
-INC_DIR		=		include/
-
-LIB_DIR		=		lib/
-
-BUILD_DIR	=		.build/
-
-#######################
-#	FILES
-#######################
+#---------- SOURCES ----------#
 
 ASM_SRC			=		ft_strlen.asm	\
 						ft_strcpy.asm	\
@@ -37,60 +24,61 @@ TEST_SRC		=		test.c
 
 TEST_BONUS_SRC	=		test_bonus.c
 
+#---------- DIRECTORIES ----------#
+
+SRC_DIR		=		src/
+INC_DIR		=		include/
+LIB_DIR		=		lib/
+BUILD_DIR	=		.build/
+
+#---------- BUILD ----------#
+
 ASM_OBJ			=		$(addprefix $(BUILD_DIR), $(ASM_SRC:.asm=.o))
 ASM_BONUS_OBJ	=		$(addprefix $(BUILD_DIR), $(ASM_BONUS_SRC:.asm=.o))
 TEST_OBJ		=		$(addprefix $(BUILD_DIR), $(TEST_SRC:.c=.o))
 TEST_BONUS_OBJ	=		$(addprefix $(BUILD_DIR), $(TEST_BONUS_SRC:.c=.o))
 
-#######################
-#	FLAGS
-#######################
+#---------- COMPILATION ----------#
 
 ASM			=		nasm
-
 ASM_FLAGS	=		-f elf64
 
-C_FLAGS		=		-Wall -Werror -Wextra -fsanitize=address -g3
+C_FLAGS		=		-Wall -Werror -Wextra -g3
 
 I_FLAGS		=		-I$(INC_DIR)
-
-ASM_I_FLAGS	=		-i$(SRC_DIR)
+I_ASM_FLAGS	=		-i$(SRC_DIR)
 
 L_FLAGS		=		-L$(LIB_DIR) -l$(LIB_NAME) -lc
 
-DEF_FLAGS	=		-DSYS_READ=0x00 -DSYS_WRITE=0x01 -DERRNO=__errno_location -DMALLOC=malloc -DFREE=free
+DEP_FLAGS	=		-MMD -MP
 
-LINK		=		ld
+AR_FLAGS	=		rcs
 
-AR			=		ar rcs
+#---------- COMMANDS ----------#
 
-#######################
-#	RULES
-#######################
+RM			=		rm -rf
+MKDIR		=		mkdir -p
 
-############
-#	GENERAL
-############
+#******************** RULES ********************#
+
+#---------- GENERAL ----------#
 
 .PHONY:				all
 all:				$(NAME)
 
-.PHONY:				bonus
-bonus:				$(NAME) $(ASM_BONUS_OBJ)
-					mkdir -p $(LIB_DIR)
-					$(AR) $(LIB_DIR)$(NAME) $(ASM_BONUS_OBJ)
-
 .PHONY:				clean
 clean:
-					$(RM) $(ASM_OBJ) $(TEST_OBJ) $(ASM_BONUS_OBJ) $(TEST_BONUS_OBJ)
+					$(RM) $(BUILD_DIR)
 
 .PHONY:				fclean
 fclean:				clean
-					$(RM) $(LIB_DIR)$(NAME) $(TEST) $(TEST_BONUS)
+					$(RM) $(NAME) $(TEST) $(TEST_BONUS)
 
 .PHONY:				re
 re:					fclean
 					$(MAKE)
+
+#---------- RUN ----------#
 
 .PHONY:				run
 run:				$(TEST)
@@ -100,13 +88,16 @@ run:				$(TEST)
 run_bonus:			$(TEST_BONUS)
 					./$(TEST_BONUS)
 
-################
-#	EXECUTABLES
-################
+#---------- EXECUTABLES ----------#
 
 $(NAME):			$(ASM_OBJ)
-					mkdir -p $(LIB_DIR)
-					$(AR) $(LIB_DIR)$@ $^
+					$(MKDIR) $(LIB_DIR)
+					$(AR) $(AR_FLAGS) $(LIB_DIR)$@ $^
+
+.PHONY:				bonus
+bonus:				$(ASM_BONUS_OBJ)
+					$(MKDIR) $(LIB_DIR)
+					$(AR) $(AR_FLAGS) $(LIB_DIR)$(NAME) $(ASM_BONUS_OBJ)
 
 $(TEST):			$(NAME) $(TEST_OBJ)
 					$(CC) $(C_FLAGS) $(I_FLAGS) $(TEST_OBJ) $(L_FLAGS) -o $@
@@ -114,15 +105,13 @@ $(TEST):			$(NAME) $(TEST_OBJ)
 $(TEST_BONUS):		bonus $(TEST_BONUS_OBJ)
 					$(CC) $(C_FLAGS) $(I_FLAGS) $(TEST_BONUS_OBJ) $(L_FLAGS) -o $@
 
-##################
-#	OBJECTS FILES
-##################
+#---------- OBJECTS FILES----------#
 
 $(BUILD_DIR)%.o:	$(SRC_DIR)%.asm
-					mkdir -p $(shell dirname $@)
-					$(ASM) $(ASM_FLAGS) $(ASM_I_FLAGS) $(DEF_FLAGS)  $< -o $@
-
+					$(MKDIR) $(shell dirname $@)
+					$(ASM) $(ASM_FLAGS) $(I_ASM_FLAGS) $< -o $@
 
 $(BUILD_DIR)%.o:	$(SRC_DIR)%.c
-					mkdir -p $(shell dirname $@)
+					$(MKDIR) $(shell dirname $@)
 					$(CC) $(C_FLAGS) $(I_FLAGS) -c $< -o $@
+
