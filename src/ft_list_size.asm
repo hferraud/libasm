@@ -2,7 +2,6 @@ bits 64
 %include "t_list.asm"
 global ft_list_size
 extern t_list
-extern MALLOC
 
 ; size_t ft_list_size(t_list *head);
 

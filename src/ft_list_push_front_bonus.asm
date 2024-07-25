@@ -1,8 +1,11 @@
 bits 64
+
 %include "t_list.asm"
+
 global ft_list_push_front
+
 extern t_list
-extern MALLOC
+extern malloc
 
 ; void ft_list_push_front(t_list **head, void *data);
 
@@ -12,7 +15,7 @@ ft_list_push_front:
 	push rdi				; save head
 	push rsi				; save data
 	mov rdi, 0x10			; malloc() size param ; 2 * 8 bytes = 16
-	call MALLOC				; return value stored in rax
+	call malloc				; return value stored in rax
 	cmp rax, 0				; cmp rax to NULL
 	je malloc_error 		; jmp if equal
 	pop rsi					; restore data
