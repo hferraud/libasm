@@ -18,7 +18,8 @@ ASM_SRC			=		ft_strlen.asm	\
 
 ASM_BONUS_SRC	=		t_list.asm						\
 						ft_list_push_front_bonus.asm	\
-						ft_list_size.asm	\
+						ft_list_size.asm				\
+						ft_list_remove_if.asm			\
 
 TEST_SRC		=		test.c
 

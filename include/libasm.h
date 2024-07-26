@@ -18,5 +18,8 @@ typedef struct s_list {
 	struct s_list	*next;
 }t_list;
 
-extern void		ft_list_push_front(t_list **head, void *data);
-extern size_t	ft_list_size(t_list *head);
+extern	void		ft_list_push_front(t_list **head, void *data);
+extern	size_t	ft_list_size(t_list *head);
+extern	void ft_list_remove_if(t_list **head, void *data, int(*cmp)(), void(*free_fct)(void *));
+
+
