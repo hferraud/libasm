@@ -97,7 +97,7 @@ free_data:
 free_elem:
 	; call free
 	mov rdi, [rsp + 8]		; rdi = iterator
-	call free
+	call free wrt ..plt
 	; restore callee-owned registers
 	pop rcx
 	pop rdx

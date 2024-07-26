@@ -15,7 +15,7 @@ ft_list_push_front:
 	push rdi				; save head
 	push rsi				; save data
 	mov rdi, 0x10			; malloc() size param ; 2 * 8 bytes = 16
-	call malloc				; return value stored in rax
+	call malloc	wrt ..plt	; return value stored in rax
 	cmp rax, 0				; cmp rax to NULL
 	je malloc_error 		; jmp if equal
 	pop rsi					; restore data

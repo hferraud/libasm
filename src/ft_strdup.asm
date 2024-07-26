@@ -13,7 +13,7 @@ ft_strdup:
 	call ft_strlen			; return value stored in rax
 	inc rax					; len += 1 for '\0'
 	mov rdi, rax			; malloc() size param
-	call malloc				; return value stored in rax
+	call malloc	wrt ..plt	; return value stored in rax
 	cmp rax, 0				; cmp rax to NULL
 	je _malloc_error		; jmp if equal
 	pop rsi					; ft_strcpy() src param

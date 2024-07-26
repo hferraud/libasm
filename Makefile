@@ -49,7 +49,7 @@ C_FLAGS		=		-Wall -Werror -Wextra -g3
 I_FLAGS		=		-I$(INC_DIR)
 I_ASM_FLAGS	=		-i$(SRC_DIR)
 
-L_FLAGS		=		-L$(LIB_DIR) -l$(LIB_NAME) -lc
+L_FLAGS		=		-L$(LIB_DIR) -l$(LIB_NAME)
 
 DEP_FLAGS	=		-MMD -MP
 
