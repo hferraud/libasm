@@ -15,7 +15,7 @@ ASM_SRC			=		ft_strlen.asm					\
 						ft_read.asm						\
 						ft_strdup.asm					\
 						t_list.asm						\
-						ft_list_push_front_bonus.asm	\
+						ft_list_push_front.asm			\
 						ft_list_size.asm				\
 						ft_list_remove_if.asm			\
 
@@ -26,7 +26,7 @@ TEST_SRC		=		main.c						\
 						ft_write.c					\
 						ft_read.c					\
 						ft_strdup.c					\
-						ft_list_push_front_bonus.c	\
+						ft_list_push_front.c		\
 						ft_list_size.c				\
 						ft_list_remove_if.c			\
 						
@@ -43,8 +43,10 @@ BUILD_DIR	=		.build/
 
 #---------- BUILD ----------#
 
-ASM_OBJ			=		$(addprefix $(BUILD_DIR), $(SRC_DIR)$(ASM_SRC:.asm=.o))
-TEST_OBJ		=		$(addprefix $(BUILD_DIR), $(TEST_DIR)$(TEST_SRC:.c=.o))
+ASM_PATH		=		$(addprefix $(SRC_DIR), $(ASM_SRC))
+TEST_PATH		=		$(addprefix $(TEST_DIR), $(TEST_SRC))
+ASM_OBJ			=		$(addprefix $(BUILD_DIR), $(ASM_PATH:.asm=.o))
+TEST_OBJ		=		$(addprefix $(BUILD_DIR), $(TEST_PATH:.c=.o))
 
 #---------- COMPILATION ----------#
 
