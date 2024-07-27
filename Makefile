@@ -4,24 +4,32 @@
 
 NAME		=		libasm.a
 TEST		=		test
-TEST_BONUS	=		test_bonus
 LIB_NAME	=		asm
 
 #---------- SOURCES ----------#
 
-ASM_SRC			=		ft_strlen.asm	\
-						ft_strcpy.asm	\
-						ft_strcmp.asm	\
-						ft_write.asm	\
-						ft_read.asm		\
-						ft_strdup.asm	\
-
-ASM_BONUS_SRC	=		t_list.asm						\
+ASM_SRC			=		ft_strlen.asm					\
+						ft_strcpy.asm					\
+						ft_strcmp.asm					\
+						ft_write.asm					\
+						ft_read.asm						\
+						ft_strdup.asm					\
+						t_list.asm						\
 						ft_list_push_front_bonus.asm	\
 						ft_list_size.asm				\
 						ft_list_remove_if.asm			\
 
-TEST_SRC		=		test.c
+TEST_SRC		=		main.c						\
+						ft_strlen.c					\
+						ft_strcpy.c					\
+						ft_strcmp.c					\
+						ft_write.c					\
+						ft_read.c					\
+						ft_strdup.c					\
+						ft_list_push_front_bonus.c	\
+						ft_list_size.c				\
+						ft_list_remove_if.c			\
+						
 
 TEST_BONUS_SRC	=		test_bonus.c
 
@@ -30,14 +38,13 @@ TEST_BONUS_SRC	=		test_bonus.c
 SRC_DIR		=		src/
 INC_DIR		=		include/
 LIB_DIR		=		lib/
+TEST_DIR	=		test_src/
 BUILD_DIR	=		.build/
 
 #---------- BUILD ----------#
 
-ASM_OBJ			=		$(addprefix $(BUILD_DIR), $(ASM_SRC:.asm=.o))
-ASM_BONUS_OBJ	=		$(addprefix $(BUILD_DIR), $(ASM_BONUS_SRC:.asm=.o))
-TEST_OBJ		=		$(addprefix $(BUILD_DIR), $(TEST_SRC:.c=.o))
-TEST_BONUS_OBJ	=		$(addprefix $(BUILD_DIR), $(TEST_BONUS_SRC:.c=.o))
+ASM_OBJ			=		$(addprefix $(BUILD_DIR), $(SRC_DIR)$(ASM_SRC:.asm=.o))
+TEST_OBJ		=		$(addprefix $(BUILD_DIR), $(TEST_DIR)$(TEST_SRC:.c=.o))
 
 #---------- COMPILATION ----------#
 
@@ -85,34 +92,22 @@ re:					fclean
 run:				$(TEST)
 					./$(TEST)
 
-.PHONY:				run_bonus
-run_bonus:			$(TEST_BONUS)
-					./$(TEST_BONUS)
-
 #---------- EXECUTABLES ----------#
 
 $(NAME):			$(ASM_OBJ)
 					$(MKDIR) $(LIB_DIR)
 					$(AR) $(AR_FLAGS) $(LIB_DIR)$@ $^
 
-.PHONY:				bonus
-bonus:				$(ASM_BONUS_OBJ)
-					$(MKDIR) $(LIB_DIR)
-					$(AR) $(AR_FLAGS) $(LIB_DIR)$(NAME) $(ASM_BONUS_OBJ)
-
 $(TEST):			$(NAME) $(TEST_OBJ)
 					$(CC) $(C_FLAGS) $(I_FLAGS) $(TEST_OBJ) $(L_FLAGS) -o $@
 
-$(TEST_BONUS):		bonus $(TEST_BONUS_OBJ)
-					$(CC) $(C_FLAGS) $(I_FLAGS) $(TEST_BONUS_OBJ) $(L_FLAGS) -o $@
-
 #---------- OBJECTS FILES----------#
 
-$(BUILD_DIR)%.o:	$(SRC_DIR)%.asm
+$(BUILD_DIR)%.o:	%.asm
 					$(MKDIR) $(shell dirname $@)
 					$(ASM) $(ASM_FLAGS) $(I_ASM_FLAGS) $< -o $@
 
-$(BUILD_DIR)%.o:	$(SRC_DIR)%.c
+$(BUILD_DIR)%.o:	%.c
 					$(MKDIR) $(shell dirname $@)
 					$(CC) $(C_FLAGS) $(I_FLAGS) -c $< -o $@
 
