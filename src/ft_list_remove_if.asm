@@ -39,18 +39,18 @@ section .text
 ; rdx = cmp
 ; rcx = free_fct
 
-; iterator	= [rsp + 8]
-; prev		= [rsp + 16]
+; iterator	= [rsp]
+; prev		= [rsp + 8]
 
 ft_list_remove_if:
 	; prologue
 	push rbx				; save rbx
 	sub rsp, 16				; room for local variables
 	mov rax, [rdi]			; move *head in rax
-	mov [rsp + 8], rax		; iterator = *head
-	mov qword [rsp + 16], 0	; prev = NULL
+	mov [rsp], rax		; iterator = *head
+	mov qword [rsp + 8], 0	; prev = NULL
 loop:
-	mov rax, [rsp + 8]		; rax = iterator
+	mov rax, [rsp]		; rax = iterator
 	test rax, rax			; set ZF to 1 if rax == 0
 	jz exit					; jump if ZF == 1
 	; save callee-owned registers
@@ -59,7 +59,7 @@ loop:
 	push rdx
 	push rcx
 	; call cmp
-	mov rax, [rsp + 8]
+	mov rax, [rsp + 32]
 	mov rdi, [rax + data]	; set first argument
 	call rdx
 	; restore callee-owned registers
@@ -70,16 +70,16 @@ loop:
 	; use cmp function argument
 	test rax, rax			; set ZF to 1 if rax == 0
 	jnz cmp_fct_nz		; jump if ZF == 0
-	cmp qword [rsp + 16], 0	; cmp prev to NULL
+	cmp qword [rsp + 8], 0	; cmp prev to NULL
 	je prev_null			; jmp if equal
 prev_not_null:
-	mov rax, [rsp + 8]		; rax = iterator
+	mov rax, [rsp]		; rax = iterator
 	mov rax, [rax + next]	; rax = iterator->next
-	mov rbx, [rsp + 16]		; rbx = prev
+	mov rbx, [rsp + 8]		; rbx = prev
 	mov [rbx + next], rax	; prev->next = iterator->next
 	jmp free_data
 prev_null:
-	mov rax, [rsp + 8]		; rax = iterator
+	mov rax, [rsp]		; rax = iterator
 	mov rax, [rax + next]	; rax = iterator->next
 	mov [rdi], rax			; *head = iterator->next
 free_data:
@@ -91,12 +91,12 @@ free_data:
 	push rdx
 	push rcx
 	; call free_fct
-	mov rdi, [rsp + 8]		; rdi = iterator
+	mov rdi, [rsp + 32]		; rdi = iterator
 	mov rdi, [rdi + data]	; rdi = iterator->data
 	call rcx
 free_elem:
 	; call free
-	mov rdi, [rsp + 8]		; rdi = iterator
+	mov rdi, [rsp + 32]		; rdi = iterator
 	call free wrt ..plt
 	; restore callee-owned registers
 	pop rcx
@@ -104,22 +104,22 @@ free_elem:
 	pop rsi
 	pop rdi
 iterate_loop:
-	mov rax, [rsp + 16]		; rax = prev
+	mov rax, [rsp + 8]		; rax = prev
 	test rax, rax			; set ZF to 1 if rax == 0
 	jz head_of_list			; jump if ZF == 1
 	mov rax, [rax + next]	; rax = prev->next
-	mov [rsp + 8], rax		; iterator = prev->next
+	mov [rsp], rax		; iterator = prev->next
 	jmp loop
 head_of_list:
 	mov rax, [rdi]			; rax = *head
-	mov [rsp + 8], rax		; iterator = *head
+	mov [rsp], rax		; iterator = *head
 	jmp loop
 
 cmp_fct_nz:
-	mov rax, [rsp + 8]		; rax = iterator
-	mov [rsp + 16], rax		; prev = iterator
+	mov rax, [rsp]		; rax = iterator
+	mov [rsp + 8], rax		; prev = iterator
 	mov rax, [rax + next]	; rax = iterator->next
-	mov [rsp + 8], rax		; iterator = iterator->next
+	mov [rsp], rax		; iterator = iterator->next
 	jmp loop
 exit:
 	; epilogue

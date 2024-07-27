@@ -13,24 +13,30 @@ int main(void) {
 		char 	*data;
 
 		head = NULL;
-		data1 = strdup("yo");
-		data2 = strdup("oy");
-		data3 = strdup("yoy");
+		data1 = strdup("1");
+		data2 = strdup("2");
+		data3 = strdup("3");
 		ft_list_push_front(&head, data1);
 		ft_list_push_front(&head, data2);
 		ft_list_push_front(&head, data3);
-		data = strdup("oy");
+		data = strdup("2");
 		ft_list_remove_if(&head, data, *strcmp, *free);
+		free(data);
+		data = strdup("3");
+		ft_list_remove_if(&head, data, *strcmp, *free);
+		free(data);
+		data = strdup("1");
+		ft_list_remove_if(&head, data, *strcmp, *free);
+		free(data);
 		tmp = NULL;
 		ft_list_remove_if(&tmp, data, *strcmp, *free);
-		free(data);
-		while (head) {
-			printf("Elem: %s\n", (char *)(head->data));
-			tmp = head->next;
-			free(head->data);
-			free(head);
-			head = tmp;
-		}
+		//while (head) {
+		//	printf("Elem: %s\n", (char *)(head->data));
+		//	tmp = head->next;
+		//	free(head->data);
+		//	free(head);
+		//	head = tmp;
+		//}
 	}
 	printf("\nTESTING FT_LIST_PUSH_FRONT:\n\n");
 	{
