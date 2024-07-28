@@ -8,27 +8,28 @@ LIB_NAME	=		asm
 
 #---------- SOURCES ----------#
 
-ASM_SRC			=		ft_strlen.asm					\
-						ft_strcpy.asm					\
-						ft_strcmp.asm					\
-						ft_write.asm					\
-						ft_read.asm						\
-						ft_strdup.asm					\
-						t_list.asm						\
-						ft_list_push_front.asm			\
-						ft_list_size.asm				\
-						ft_list_remove_if.asm			\
+ASM_SRC			=		ft_strlen.asm			\
+						ft_strcpy.asm			\
+						ft_strcmp.asm			\
+						ft_write.asm			\
+						ft_read.asm				\
+						ft_strdup.asm			\
+						t_list.asm				\
+						ft_create_elem.asm		\
+						ft_list_push_front.asm	\
+						ft_list_size.asm		\
+						ft_list_remove_if.asm	\
 
-TEST_SRC		=		main.c						\
-						ft_strlen.c					\
-						ft_strcpy.c					\
-						ft_strcmp.c					\
-						ft_write.c					\
-						ft_read.c					\
-						ft_strdup.c					\
-						ft_list_push_front.c		\
-						ft_list_size.c				\
-						ft_list_remove_if.c			\
+TEST_SRC		=		main.c					\
+						ft_strlen.c				\
+						ft_strcpy.c				\
+						ft_strcmp.c				\
+						ft_write.c				\
+						ft_read.c				\
+						ft_strdup.c				\
+						ft_list_push_front.c	\
+						ft_list_size.c			\
+						ft_list_remove_if.c		\
 						
 
 TEST_BONUS_SRC	=		test_bonus.c
