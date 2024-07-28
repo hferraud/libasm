@@ -30,6 +30,7 @@ TEST_SRC		=		main.c					\
 						ft_list_push_front.c	\
 						ft_list_size.c			\
 						ft_list_remove_if.c		\
+						ft_list_sort.c			\
 						
 
 TEST_BONUS_SRC	=		test_bonus.c
