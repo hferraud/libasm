@@ -38,6 +38,7 @@ void swap(t_list *lhs, t_list *rhs) {
 
 UTEST(ft_list_sort, valid_list) {
 	t_list	*next;
+	t_list	*head;
 	char	*data;
   	t_list *list = NULL;
   	data = strdup("2");
@@ -52,14 +53,17 @@ UTEST(ft_list_sort, valid_list) {
 		printf("elem: %s\n", (char *)next->data);
 		next = next->next;
 	}
+	head = list;
   	while (list->next) {
-		next = list->next;
 		ASSERT_LT(strcmp(list->data, next->data), 0);
+		list = list->next;
+  	}
+	list = head;
+	while (list) {
+		next = list->next;
   		free(list->data);
   		free(list);
 		list = next;
-  	}
-	free(list->data);
-	free(list);
+	}
 }
 
