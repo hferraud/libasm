@@ -12,7 +12,6 @@ extern ft_create_elem
 section .text
 
 ft_list_push_front:
-	ret
 	test rdi, rdi
 	jz exit 				; exit if head is NULL
 	; ft_create_elem prologue
