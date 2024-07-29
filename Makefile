@@ -19,6 +19,7 @@ ASM_SRC			=		ft_strlen.asm			\
 						ft_list_push_front.asm	\
 						ft_list_size.asm		\
 						ft_list_remove_if.asm	\
+						ft_list_sort.asm		\
 
 TEST_SRC		=		main.c					\
 						ft_strlen.c				\

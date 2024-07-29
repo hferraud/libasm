@@ -11,6 +11,9 @@ extern free
 ;	t_list	*iterator;
 ;	t_list	*prev;
 ;
+;	if (head == NULL || cmp == NULL) {
+;		return;
+;	}
 ;	iterator = *head;
 ;	prev = NULL;
 ;	while (iterator) {
@@ -32,8 +35,6 @@ extern free
 ;	}
 ;}
 
-section .text
-
 ; rdi = head
 ; rsi = data
 ; rdx = cmp
@@ -41,6 +42,8 @@ section .text
 
 ; iterator	= [rsp]
 ; prev		= [rsp + 8]
+
+section .text
 
 ft_list_remove_if:
 	; prologue

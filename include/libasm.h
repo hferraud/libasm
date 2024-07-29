@@ -22,5 +22,5 @@ extern t_list	*ft_create_elem(void *data);
 extern void		ft_list_push_front(t_list **head, void *data);
 extern size_t	ft_list_size(t_list *head);
 extern void		ft_list_remove_if(t_list **head, void *data, int(*cmp)(), void(*free_fct)(void *));
-
+extern void		ft_list_sort(t_list **head, int (*cmp)());
 
