@@ -65,16 +65,17 @@ loop_j:
 	push rdi
 	push rsi
 	; cmp call
+	mov rax, rsi
 	mov rdi, [rsp + 16 + 16]
 	mov rdi, [rdi + data]	; rdi = min->data
 	mov rsi, [rsp + 8 + 16]
-	mov rsi, [rdi + data]	; rsi = j->data
-	call rsi
+	mov rsi, [rsi + data]	; rsi = j->data
+	call rax
 	; cmp epilogue
 	pop rsi
-	pop rsi
-	test rax, rax
-	jle iterate_loop_j		; jump if rax is non positive
+	pop rdi
+	cmp rax, 0
+	jbe iterate_loop_j		; jump if rax is non positive
 	mov rax, [rsp + 8]
 	mov [rsp + 16], rax		; min = j
 iterate_loop_j:
@@ -91,14 +92,15 @@ end_loop_j:
 	mov rsi, [rsp + 16 + 16]
 	call swap
 	; swap epilogue
-	pop rdi
 	pop rsi
+	pop rdi
 	mov rax, [rsp]
 	mov rax, [rax + next]
 	mov [rsp], rax			; i = i->next
 	jmp loop_i
 exit:
 	add rsp, 24				; free stack
+	ret
 
 ; void swap(t_list *lhs, t_list *rhs) {
 ; 	void *tmp;
@@ -120,7 +122,7 @@ swap:
 	mov rax, [rsi + data]
 	mov [rdi + data], rax	; lhs->data = rhs->data 
 	mov rax, [rsp]
-	mov [rdi + data], rax	; rhs->data = tmp
+	mov [rsi + data], rax	; rhs->data = tmp
 	add rsp, 8				; epilogue
 	ret
 

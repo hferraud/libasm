@@ -16,8 +16,18 @@ UTEST(ft_list_sort, valid_list) {
   	ft_list_push_front(&list, data);
   	data = strdup("1");
   	ft_list_push_front(&list, data);
-  	ft_list_sort(&list, strcmp);
 	head = list;
+	// while (list) {
+	// 	printf("Elem: %s\n", (char*)list->data);
+	// 	list = list->next;
+	// }
+	list = head;
+  	ft_list_sort(&list, strcmp);
+	while (list) {
+		printf("Elem: %s\n", (char*)list->data);
+		list = list->next;
+	}
+	list = head;
   	while (list->next) {
 		next = list->next;
 		ASSERT_LT(strcmp(list->data, next->data), 0);
