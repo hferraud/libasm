@@ -96,6 +96,10 @@ re:					fclean
 run:				$(TEST)
 					./$(TEST)
 
+.PHONY:				leak
+leak:				$(TEST)
+					valgrind --leak-check=full ./$(TEST)
+
 #---------- EXECUTABLES ----------#
 
 $(NAME):			$(ASM_OBJ)
