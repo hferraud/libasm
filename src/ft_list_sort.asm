@@ -10,7 +10,7 @@ extern t_list
 ; 	t_list	*i;
 ; 	t_list	*j;
 ; 	t_list	*min;
-; 	if (head == NULL || cmp == NULL) {
+; 	if (head == NULL || *head == NULL || cmp == NULL) {
 ; 		return;
 ; 	}
 ; 	i = *head;
@@ -43,6 +43,9 @@ ft_list_sort:
 	; tests
 	test rdi, rdi
 	jz exit					; jump if head is NULL
+	mov rax, [rdi]
+	test rax, rax
+	jz exit					; jump if *head is NULL
 	test rdx, rdx
 	jz exit					; jump if cmp is NULL
 	mov rax, [rdi]
@@ -74,8 +77,8 @@ loop_j:
 	; cmp epilogue
 	pop rsi
 	pop rdi
-	cmp rax, 0
-	jbe iterate_loop_j		; jump if rax is non positive
+	cmp eax, 0
+	jle iterate_loop_j		; jump if rax is non positive
 	mov rax, [rsp + 8]
 	mov [rsp + 16], rax		; min = j
 iterate_loop_j:
